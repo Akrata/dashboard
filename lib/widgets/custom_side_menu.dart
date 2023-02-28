@@ -7,10 +7,15 @@ class CustomSideMenu extends StatefulWidget {
   const CustomSideMenu({super.key, required this.pageController});
 
   @override
-  State<CustomSideMenu> createState() => _CustomSideMenuState();
+  State<CustomSideMenu> createState() =>
+      _CustomSideMenuState(pageController: pageController);
 }
 
 class _CustomSideMenuState extends State<CustomSideMenu> {
+  final PageController pageController;
+  int _selectedPage = 0;
+
+  _CustomSideMenuState({required this.pageController});
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -45,34 +50,83 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   children: [
                     CustomIconMenu(
                       icon: Icons.home,
-                      onPressed: () {},
+                      onPressed: () {
+                        pageController.animateToPage(0,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease);
+                        setState(() {
+                          _selectedPage = 0;
+                        });
+                      },
                     ),
                     CustomIconMenu(
                       icon: Icons.question_mark,
-                      onPressed: () {},
+                      onPressed: () {
+                        pageController.animateToPage(1,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease);
+                        setState(() {
+                          _selectedPage = 1;
+                        });
+                      },
                     ),
                     CustomIconMenu(
                       icon: Icons.chat_bubble,
-                      onPressed: () {},
+                      onPressed: () {
+                        pageController.animateToPage(2,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease);
+                        setState(() {
+                          _selectedPage = 2;
+                        });
+                      },
                     ),
                     CustomIconMenu(
                       icon: Icons.pending,
-                      onPressed: () {},
+                      onPressed: () {
+                        pageController.animateToPage(3,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease);
+                        setState(() {
+                          _selectedPage = 3;
+                        });
+                      },
                     ),
                     CustomIconMenu(
                       icon: Icons.graphic_eq,
-                      onPressed: () {},
+                      onPressed: () {
+                        pageController.animateToPage(4,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease);
+                        setState(() {
+                          _selectedPage = 4;
+                        });
+                      },
                     ),
                     CustomIconMenu(
                       icon: Icons.people,
-                      onPressed: () {},
+                      onPressed: () {
+                        pageController.animateToPage(5,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease);
+                        setState(() {
+                          _selectedPage = 5;
+                        });
+                      },
                     ),
                   ],
                 ),
                 Container(
                   child: CustomIconMenu(
                     icon: Icons.settings,
-                    onPressed: () {},
+                    onPressed: () {
+                      pageController.animateToPage(6,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.ease);
+                      setState(() {
+                        _selectedPage = 6;
+                      });
+                    },
                   ),
                 )
               ],

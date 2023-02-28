@@ -1,3 +1,4 @@
+import 'package:dashboard/widgets/custom_expanded_sizde.dart';
 import 'package:dashboard/widgets/custom_side_menu.dart';
 import 'package:flutter/material.dart';
 
@@ -19,12 +20,7 @@ class _DesktopLayoutState extends State<DesktopLayout> {
           //menu lateral
           CustomSideMenu(pageController: pageController),
           //parte principal
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(color: Colors.grey[200]),
-              child: Column(),
-            ),
-          )
+          CustomExpandedSide(pageController: pageController),
         ],
       ),
     );
