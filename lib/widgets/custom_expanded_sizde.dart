@@ -32,7 +32,7 @@ class _CustomExpandedSideState extends State<CustomExpandedSide> {
                   Expanded(
                     child: Container(
                       alignment: Alignment.center,
-                      child: Text("Crami Soporte",
+                      child: Text("Soporte App",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: AppTheme.primary,
@@ -89,7 +89,7 @@ class _CustomExpandedSideState extends State<CustomExpandedSide> {
                   },
                   children: [
                     HomePage(screenName: '0'),
-                    SectoresPage(),
+                    SectoresPage(pageName: 'Sectores'),
                     HomePage(screenName: '2'),
                     HomePage(screenName: '3'),
                     HomePage(screenName: '4'),

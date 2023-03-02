@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static Color primary = Colors.blue.shade300;
+  static Color primary = Colors.blue.shade200;
 
   static final ThemeData lightTheme = ThemeData().copyWith(
     useMaterial3: true,
@@ -32,6 +32,7 @@ class AppTheme {
         ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
         ),
       ),
       focusedBorder: OutlineInputBorder(
@@ -40,6 +41,7 @@ class AppTheme {
         ),
         borderRadius: BorderRadius.only(
           bottomRight: Radius.circular(10),
+          topLeft: Radius.circular(10),
         ),
       ),
       border: OutlineInputBorder(),

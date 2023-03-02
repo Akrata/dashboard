@@ -1,67 +1,92 @@
 import 'package:flutter/material.dart';
 
 class SectoresPage extends StatefulWidget {
-  const SectoresPage({Key? key}) : super(key: key);
+  final String pageName;
+  const SectoresPage({Key? key, required this.pageName}) : super(key: key);
 
   @override
-  State<SectoresPage> createState() => _SectoresPageState();
+  State<SectoresPage> createState() => _SectoresPageState(pageName: pageName);
 }
 
 class _SectoresPageState extends State<SectoresPage> {
+  final String pageName;
   List<Map<String, dynamic>> _data = [
-    {'id': 1, 'name': 'John Doe', 'email': 'johndoe@example.com'},
-    {'id': 2, 'name': 'Jane Smith', 'email': 'janesmith@example.com'},
-    {'id': 3, 'name': 'Bob Johnson', 'email': 'bobjohnson@example.com'},
+    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
+    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
+    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
+    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
+    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
+    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
+    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
+    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
+    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
+    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
+    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
+    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
+    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
+    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
+    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
+    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
+    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
+    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
   ];
 
   List<DataColumn> _columns = [
     DataColumn(label: Text('ID')),
-    DataColumn(label: Text('Name')),
-    DataColumn(label: Text('Email')),
-    DataColumn(label: Text('Actions')),
+    DataColumn(label: Text('Sector')),
+    DataColumn(label: Text('sucursal')),
+    DataColumn(label: Text('Acciones')),
   ];
 
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
+  TextEditingController _sucursalController = TextEditingController();
+
+  _SectoresPageState({required this.pageName});
 
   void _showEditPopup(Map<String, dynamic> data) {
-    _nameController.text = data['name'];
-    _emailController.text = data['email'];
+    _nameController.text = data['sector'];
+    _sucursalController.text = data['sucursal'];
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Data'),
+          title: Text('Editar Informacion'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: _nameController,
                 decoration: InputDecoration(
-                  labelText: 'Name',
+                  labelText: 'Sector',
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
               TextField(
-                controller: _emailController,
+                controller: _sucursalController,
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'sucursal',
                 ),
               ),
             ],
           ),
           actions: [
             TextButton(
-              child: Text('Cancel'),
+              child: Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.red.shade200),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Save'),
+              child: Text('Guardar'),
               onPressed: () {
                 // Save edited data action here
-                data['name'] = _nameController.text;
-                data['email'] = _emailController.text;
+                data['sector'] = _nameController.text;
+                data['sucursal'] = _sucursalController.text;
                 Navigator.of(context).pop();
                 setState(() {});
               },
@@ -72,50 +97,89 @@ class _SectoresPageState extends State<SectoresPage> {
     );
   }
 
+  void _showDeletePopup(Map<String, dynamic> data) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+            'Desea eliminar a "${data['sector']} de ${data['sucursal']}"?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              // Delete data action here
+              setState(() {
+                _data.removeWhere((element) => element['id'] == data['id']);
+                Navigator.pop(context);
+              });
+              print('Deleting data with id ${data['id']}');
+            },
+            child: Text(
+              'Si',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('no'))
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Data Table Example'),
+        title: Text(pageName),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: DataTable(
-          columns: _columns,
-          rows: _data
-              .map(
-                (data) => DataRow(
-                  cells: [
-                    DataCell(Text(data['id'].toString())),
-                    DataCell(Text(data['name'])),
-                    DataCell(Text(data['email'])),
-                    DataCell(Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            _showEditPopup(data);
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            // Delete data action here
-                            setState(() {
-                              _data.removeWhere(
-                                  (element) => element['id'] == data['id']);
-                            });
-                            print('Deleting data with id ${data['id']}');
-                          },
-                        ),
-                      ],
-                    )),
-                  ],
-                ),
-              )
-              .toList(),
+      body: SizedBox(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: DataTable(
+            columns: _columns,
+            rows: _data
+                .map(
+                  (data) => DataRow(
+                    cells: [
+                      DataCell(Text(data['id'].toString())),
+                      DataCell(Text(data['sector'])),
+                      DataCell(Text(data['sucursal'])),
+                      DataCell(Row(
+                        children: [
+                          IconButton(
+                            icon:
+                                Icon(Icons.edit, color: Colors.amber.shade300),
+                            onPressed: () {
+                              _showEditPopup(data);
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.red.shade300,
+                            ),
+                            onPressed: () {
+                              _showDeletePopup(data);
+                            },
+                          ),
+                        ],
+                      )),
+                    ],
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(
+            Icons.add,
+            size: 25,
+          )),
     );
   }
 }
