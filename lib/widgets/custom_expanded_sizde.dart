@@ -1,4 +1,5 @@
 import 'package:dashboard/pages/home_page.dart';
+import 'package:dashboard/pages/sectores_page.dart';
 import 'package:dashboard/themes/app_theme.dart';
 import 'package:dashboard/widgets/widget.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,7 @@ class _CustomExpandedSideState extends State<CustomExpandedSide> {
                   },
                   children: [
                     HomePage(screenName: '0'),
-                    HomePage(screenName: '1'),
+                    SectoresPage(),
                     HomePage(screenName: '2'),
                     HomePage(screenName: '3'),
                     HomePage(screenName: '4'),
