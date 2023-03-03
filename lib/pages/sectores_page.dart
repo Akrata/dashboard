@@ -1,3 +1,4 @@
+import 'package:dashboard/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
 class SectoresPage extends StatefulWidget {
@@ -128,6 +129,43 @@ class _SectoresPageState extends State<SectoresPage> {
     );
   }
 
+  void _newSectorPopup() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Nuevo Sector'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Sector',
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            child: Text(
+              'Cancelar',
+              style: TextStyle(color: Colors.red.shade200),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Guardar'),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +213,7 @@ class _SectoresPageState extends State<SectoresPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => _newSectorPopup(),
           child: Icon(
             Icons.add,
             size: 25,
