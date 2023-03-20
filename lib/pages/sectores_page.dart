@@ -1,5 +1,8 @@
+import 'package:dashboard/providers/sectores_provider.dart';
+import 'package:dashboard/providers/sucursales_provider.dart';
 import 'package:dashboard/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SectoresPage extends StatefulWidget {
   final String pageName;
@@ -168,6 +171,8 @@ class _SectoresPageState extends State<SectoresPage> {
 
   @override
   Widget build(BuildContext context) {
+    final sucursalProvider = Provider.of<SucursalesProvider>(context);
+    final sectorProvider = Provider.of<SectoresProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(pageName),
@@ -185,26 +190,28 @@ class _SectoresPageState extends State<SectoresPage> {
                       DataCell(Text(data['id'].toString())),
                       DataCell(Text(data['sector'])),
                       DataCell(Text(data['sucursal'])),
-                      DataCell(Row(
-                        children: [
-                          IconButton(
-                            icon:
-                                Icon(Icons.edit, color: Colors.amber.shade300),
-                            onPressed: () {
-                              _showEditPopup(data);
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.red.shade300,
+                      DataCell(
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.edit,
+                                  color: Colors.amber.shade300),
+                              onPressed: () {
+                                _showEditPopup(data);
+                              },
                             ),
-                            onPressed: () {
-                              _showDeletePopup(data);
-                            },
-                          ),
-                        ],
-                      )),
+                            IconButton(
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red.shade300,
+                              ),
+                              onPressed: () {
+                                _showDeletePopup(data);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 )
