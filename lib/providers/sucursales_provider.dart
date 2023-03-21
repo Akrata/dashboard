@@ -6,6 +6,8 @@ class SucursalesProvider extends ChangeNotifier {
   final url =
       Uri.http('127.0.0.1:8090', '/api/collections/sucursal/records', {});
 
+  List<Sucursal> listaSucursales = [];
+
   SucursalesProvider() {
     getSectores();
   }
@@ -14,6 +16,7 @@ class SucursalesProvider extends ChangeNotifier {
     final response = await http.get(url);
     final data = SucursalResponse.fromJson(response.body);
     print(data.items[0].nombre);
+    listaSucursales = data.items;
     notifyListeners();
   }
 }

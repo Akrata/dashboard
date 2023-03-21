@@ -1,3 +1,4 @@
+import 'package:dashboard/models/sector_response.dart';
 import 'package:dashboard/providers/sectores_provider.dart';
 import 'package:dashboard/providers/sucursales_provider.dart';
 import 'package:dashboard/widgets/widget.dart';
@@ -14,26 +15,11 @@ class SectoresPage extends StatefulWidget {
 
 class _SectoresPageState extends State<SectoresPage> {
   final String pageName;
-  List<Map<String, dynamic>> _data = [
-    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
-    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
-    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
-    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
-    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
-    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
-    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
-    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
-    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
-    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
-    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
-    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
-    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
-    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
-    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
-    {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
-    {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
-    {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
-  ];
+  // List<Map<String, dynamic>> _data = [
+  //   {'id': 1, 'sector': 'Recepcion', 'sucursal': 'Policlinico'},
+  //   {'id': 2, 'sector': 'Admision Interna', 'sucursal': 'Sanatorio'},
+  //   {'id': 3, 'sector': 'Admision', 'sucursal': 'La paz'},
+  // ];
 
   List<DataColumn> _columns = [
     DataColumn(label: Text('ID')),
@@ -47,9 +33,9 @@ class _SectoresPageState extends State<SectoresPage> {
 
   _SectoresPageState({required this.pageName});
 
-  void _showEditPopup(Map<String, dynamic> data) {
-    _nameController.text = data['sector'];
-    _sucursalController.text = data['sucursal'];
+  void _showEditPopup(Sector data) {
+    _nameController.text = data.nombre;
+    _sucursalController.text = data.expand!.sucursal.nombre;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -67,12 +53,12 @@ class _SectoresPageState extends State<SectoresPage> {
               SizedBox(
                 height: 20,
               ),
-              TextField(
-                controller: _sucursalController,
-                decoration: InputDecoration(
-                  labelText: 'sucursal',
-                ),
-              ),
+              // TextField(
+              //   controller: _sucursalController,
+              //   decoration: InputDecoration(
+              //     labelText: 'sucursal',
+              //   ),
+              // ),
             ],
           ),
           actions: [
@@ -89,8 +75,8 @@ class _SectoresPageState extends State<SectoresPage> {
               child: Text('Guardar'),
               onPressed: () {
                 // Save edited data action here
-                data['sector'] = _nameController.text;
-                data['sucursal'] = _sucursalController.text;
+                data.nombre = _nameController.text;
+                // data.expand!.sucursal.nombre = _sucursalController.text;
                 Navigator.of(context).pop();
                 setState(() {});
               },
@@ -101,21 +87,21 @@ class _SectoresPageState extends State<SectoresPage> {
     );
   }
 
-  void _showDeletePopup(Map<String, dynamic> data) {
+  void _showDeletePopup(Sector data) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-            'Desea eliminar a "${data['sector']} de ${data['sucursal']}"?'),
+            'Desea eliminar el sector "${data.nombre} de ${data.expand!.sucursal.nombre}"?'),
         actions: [
           TextButton(
             onPressed: () {
               // Delete data action here
               setState(() {
-                _data.removeWhere((element) => element['id'] == data['id']);
+                // _data.removeWhere((element) => element['id'] == data['id']);
                 Navigator.pop(context);
               });
-              print('Deleting data with id ${data['id']}');
+              print('Deleting data with id ${data.id}');
             },
             child: Text(
               'Si',
@@ -183,13 +169,13 @@ class _SectoresPageState extends State<SectoresPage> {
           scrollDirection: Axis.vertical,
           child: DataTable(
             columns: _columns,
-            rows: _data
+            rows: sectorProvider.listaSectores
                 .map(
                   (data) => DataRow(
                     cells: [
-                      DataCell(Text(data['id'].toString())),
-                      DataCell(Text(data['sector'])),
-                      DataCell(Text(data['sucursal'])),
+                      DataCell(Text(data.id)),
+                      DataCell(Text(data.nombre)),
+                      DataCell(Text(data.expand!.sucursal.nombre)),
                       DataCell(
                         Row(
                           children: [

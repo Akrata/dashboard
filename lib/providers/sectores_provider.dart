@@ -6,6 +6,8 @@ class SectoresProvider extends ChangeNotifier {
   final url = Uri.http('127.0.0.1:8090', '/api/collections/sector/records',
       {'expand': 'sucursal'});
 
+  List<Sector> listaSectores = [];
+
   SectoresProvider() {
     getSectores();
   }
@@ -14,5 +16,7 @@ class SectoresProvider extends ChangeNotifier {
     final response = await http.get(url);
     final data = SectorResponse.fromJson(response.body);
     print(data.items[0].expand?.sucursal.nombre);
+    listaSectores = data.items;
+    notifyListeners();
   }
 }
